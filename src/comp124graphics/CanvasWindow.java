@@ -59,6 +59,7 @@ public class CanvasWindow extends JPanel implements GraphicsObserver{
     public void add(GraphicsObject gObject){
         gObject.addObserver(this);
         gObjects.add(gObject);
+        repaint();
     }
 
     /**
