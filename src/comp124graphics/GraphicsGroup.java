@@ -29,7 +29,7 @@ public class GraphicsGroup extends GraphicsObject implements GraphicsObserver {
     private double y;
 
     /**
-     * Bounding rectangle around all of the graphicObjects contained in this group.
+     * Bounding rectangle around all of the graphicObjects contained in this group in window coordinates.
      */
     private java.awt.Rectangle bounds;
 
@@ -49,6 +49,7 @@ public class GraphicsGroup extends GraphicsObject implements GraphicsObserver {
         this.x = x;
         this.y = y;
         gObjects = new ConcurrentLinkedDeque<GraphicsObject>();
+        bounds = new java.awt.Rectangle(0,0,-1, -1);
     }
 
     /**
@@ -58,13 +59,18 @@ public class GraphicsGroup extends GraphicsObject implements GraphicsObserver {
     public void add(GraphicsObject gObject){
         gObject.addObserver(this);
         gObjects.add(gObject);
-        if (bounds != null) {
-            bounds = bounds.union(gObject.getBounds());
+       // if (bounds != null) {
+            java.awt.Rectangle objBounds = gObject.getBounds();
+            bounds = bounds.union(objBounds);
+        /*
         }
         else{
             java.awt.Rectangle objBounds = gObject.getBounds();
-            bounds = new java.awt.Rectangle((int)objBounds.getX(), (int)objBounds.getY(), (int)objBounds.getWidth(), (int)objBounds.getHeight());
+            if (objBounds != null) {
+                bounds = new java.awt.Rectangle((int) objBounds.getX(), (int) objBounds.getY(), (int) objBounds.getWidth(), (int) objBounds.getHeight());
+            }
         }
+        */
         changed();
     }
 
@@ -113,11 +119,14 @@ public class GraphicsGroup extends GraphicsObject implements GraphicsObserver {
      * @param gc
      */
     public void draw(Graphics2D gc){
+        if (bounds.isEmpty()){
+            return;
+        }
         imgBuffer = new BufferedImage((int)Math.ceil(bounds.getX()+bounds.getWidth()), (int)Math.ceil(bounds.getY()+bounds.getHeight()), BufferedImage.TYPE_4BYTE_ABGR);
         subCanvas = imgBuffer.createGraphics();
         enableAntialiasing();
         subCanvas.setBackground(new Color(1, 1, 1, 0));
-        subCanvas.clearRect(0, 0, (int)Math.ceil(bounds.getWidth()), (int)Math.ceil(bounds.getHeight()));
+        subCanvas.clearRect(0, 0, (int)Math.ceil(bounds.getX()+bounds.getWidth()), (int)Math.ceil(bounds.getY()+bounds.getHeight()));
         for(GraphicsObject obj: gObjects){
             obj.draw(subCanvas);
         }
@@ -210,11 +219,11 @@ public class GraphicsGroup extends GraphicsObject implements GraphicsObserver {
     }
 
     /**
-     * Returns an axis aligned bounding rectangle for the graphical object.
+     * Returns an axis aligned bounding rectangle for the graphical object in local coordinates.
      * @return
      */
     public java.awt.Rectangle getBounds(){
-        return bounds;
+        return new java.awt.Rectangle((int) Math.ceil(this.x + bounds.getX()), (int) Math.ceil(this.y + bounds.getY()), (int) Math.ceil(bounds.getWidth()), (int) Math.ceil(bounds.getHeight()));
     }
 
     /**
@@ -223,6 +232,7 @@ public class GraphicsGroup extends GraphicsObject implements GraphicsObserver {
      * @param changedObject
      */
     public void graphicChanged(GraphicsObject changedObject){
+        updateBounds();
         changed();
     }
 
@@ -239,5 +249,19 @@ public class GraphicsGroup extends GraphicsObject implements GraphicsObserver {
         subCanvas.setRenderingHint(
                 RenderingHints.KEY_STROKE_CONTROL,
                 RenderingHints.VALUE_STROKE_PURE);
+    }
+
+    private void updateBounds(){
+        bounds = null;
+        for(GraphicsObject gObject: gObjects) {
+            if (bounds != null) {
+                bounds = bounds.union(gObject.getBounds());
+            } else {
+                java.awt.Rectangle objBounds = gObject.getBounds();
+                if (objBounds != null) {
+                    bounds = new java.awt.Rectangle((int) objBounds.getX(), (int) objBounds.getY(), (int) objBounds.getWidth(), (int) objBounds.getHeight());
+                }
+            }
+        }
     }
 }
