@@ -20,16 +20,8 @@ public class StopWatchProgram extends CanvasWindow implements ActionListener {
     Timer timer; // this is used in place of a while(true) loop with a pause
     public final static int ONE_SECOND = 1000;
 
-
-    private int hours; // the last displayed hours
-    private int minutes; // the last displayed minutes
-    private int seconds; // the last displayed seconds
-
     public StopWatchProgram() {
         super("Stop Watch", 700, 200);
-        hours = 0;
-        minutes = 0;
-        seconds = 0;
 
         setBackground(Color.cyan);
 
@@ -41,6 +33,7 @@ public class StopWatchProgram extends CanvasWindow implements ActionListener {
         button.addActionListener(this);  // for the button
 
         setupJavaTimer();
+        // TODO: setup the StopWatch object here.
 
     }
 
@@ -61,8 +54,10 @@ public class StopWatchProgram extends CanvasWindow implements ActionListener {
             public void actionPerformed(ActionEvent evt) {
 
                 //TODO: replace this with an update to the LCD version of the stop watch
-                seconds++; //updating seconds is not enough for the real timer
-                System.out.print("\r"+Integer.toString(seconds));
+                // this version of the code will print out "unix time" which is the number
+                // of seconds since midnight Thursday, 1 January 1970 UTC time zone. This is
+                // how computers track time and will show you that this method is running.
+                System.out.print("\r"+System.currentTimeMillis()/1000);
             }
         });
     }  // leave the structure of this method declaration intact
