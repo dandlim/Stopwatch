@@ -10,7 +10,12 @@ Your task in this homework is to create a stopwatch out of LCD numbers. You shou
 
 You must also document all of your methods and the top of each class file with useful javadoc comments. Useful comments describe in detail what a method does and what is returned or changed as a result of executing it.
 
-Graphical event-driven programs can be difficult to test with unit tests. Work out a way to add methods to your StopWatchProgram class that can be used for testing purposes. For example, what happens to your stopwatch when the number of seconds passes 59, the number of minutes passes 59, and the number of hours passes a particular value (you have options here- document your choice)? Develop ways to set the stopwatch time to an initial value that enables you to test whether the display works properly at certain points of time. This is a different type of testing that is important when developing GUI applications.
+Graphical event-driven programs can be difficult to test with unit tests. 
+Ultimately, you will not be able to write unit tests for the clock showing up correctly, you will need to test that directly. 
+However, you are expected to work out a way to add methods to your StopWatch class that can be used for other features of the class. 
+For example, what happens to your stopwatch when the number of seconds passes 59, the number of minutes passes 59, and the number of hours passes a particular value (you have options here- document your choice)? 
+Develop ways to set the stopwatch time to an initial value that enables you to test whether the StopWatch object progresses time correctly at these certain points of time. 
+This type of testing is important when developing GUI applications.
 
 ###Important Notes
 
