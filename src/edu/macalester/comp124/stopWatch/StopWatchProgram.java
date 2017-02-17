@@ -1,7 +1,6 @@
 package edu.macalester.comp124.stopWatch;
 
 import comp124graphics.CanvasWindow;
-import comp124graphics.Rectangle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,14 +15,26 @@ import java.awt.event.ActionListener;
 public class StopWatchProgram extends CanvasWindow implements ActionListener {
 
     // TODO: use a StopWatch instance instead of printing to the console
+    private StopWatch stopWatch = new StopWatch(0, 0);;
+
+    private int countHour = 0;
+    private int countMin = 0;
+    private int countSec = 0;
+
+    private int timeSince = 0;
+
 
     Timer timer; // this is used in place of a while(true) loop with a pause
     public final static int ONE_SECOND = 1000;
 
+    /**
+     * Creates a constructor for the class with the window, the buttons and includes StopWatch
+     */
     public StopWatchProgram() {
+
         super("Stop Watch", 700, 200);
 
-        setBackground(Color.cyan);
+        setBackground(Color.black);
 
         JButton button = new JButton("Start/Stop");
         button.setSize(200, 40);
@@ -33,8 +44,10 @@ public class StopWatchProgram extends CanvasWindow implements ActionListener {
         button.addActionListener(this);  // for the button
 
         setupJavaTimer();
-        // TODO: setup the StopWatch object here.
 
+        // TODO: setup the StopWatch object here.
+        stopWatch = new StopWatch();
+        add(stopWatch, 20, 60);
     }
 
     /**
@@ -57,12 +70,38 @@ public class StopWatchProgram extends CanvasWindow implements ActionListener {
                 // this version of the code will print out "unix time" which is the number
                 // of seconds since midnight Thursday, 1 January 1970 UTC time zone. This is
                 // how computers track time and will show you that this method is running.
-                System.out.print("\r"+System.currentTimeMillis()/1000);
+                if (countSec < 59){
+
+                    timeSince++;
+                    countSec++;
+                } else {
+
+                    timeSince++;
+                    countSec = 0;
+                    if(countMin<59){
+
+                        countMin++;
+                    }else{
+
+                        countMin = 0;
+                        if(countHour<99){
+
+                            countHour++;
+                        } else{
+
+                            countHour=0;
+                        }
+
+                    }
+                }
+                stopWatch.setCountHour(countHour);
+                stopWatch.setCountMin(countMin);
+                stopWatch.setCountSec(countSec);
+                stopWatch.drawTime();
+
             }
         });
-    }  // leave the structure of this method declaration intact
-
-
+    }
 
 
     /**
@@ -74,17 +113,38 @@ public class StopWatchProgram extends CanvasWindow implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         if (cmd.equals("Start/Stop")) {
+
             // TODO: complete the logic here
             //       Right now this simply starts the timer when you click
             //       the button -
             //       you will need to kill the program to have it go away.
             //       The real version will start and stop your timer.
             //
-            timer.start();
+            if (timer.isRunning()) {
+                timer.stop();
 
+            } else {
+                timer.start();
+                timeSince = 0;
+            }
         }
     }
 
+    public void setCountHour(int time) {
+        countHour = time;
+    }
+
+    public void setCountMin(int time) {
+        countMin = time;
+    }
+
+    public void setCountSec(int time) {
+        countSec = time;
+    }
+
+    /**
+     * Main method that runs the class
+     */
     public static void main(String[] args){
         StopWatchProgram prog = new StopWatchProgram();
     }
