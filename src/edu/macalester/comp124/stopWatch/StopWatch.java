@@ -6,6 +6,7 @@ import comp124graphics.GraphicsGroup;
  * This program creates a stopwatch
  *
  * Created by danielimmy on 2017. 2. 16..
+ * Worked in partners with Chase Yoo.
  */
 public class StopWatch extends GraphicsGroup {
 
@@ -131,4 +132,3 @@ public class StopWatch extends GraphicsGroup {
         return "Display time: " + countHour + ":" + countMin + ":" + countSec;
     }
 }
-

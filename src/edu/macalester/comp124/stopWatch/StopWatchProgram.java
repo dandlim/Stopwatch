@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 /**
  * This Program will display a stopwatch that can be started and stopped with a
  * button placed at the bottom of the window.
+ *
+ * Worked in partners with Chase Yoo.
  */
 public class StopWatchProgram extends CanvasWindow implements ActionListener {
 
