@@ -3,6 +3,8 @@ package edu.macalester.comp124.stopWatch;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.Assert.*;
 
 /**
@@ -11,13 +13,21 @@ import static org.junit.Assert.*;
 public class StopWatchTest {
 
     StopWatch stopWatch = new StopWatch();
-     /**
-      * Sets the time to 23:59:57 and checks if the clock function properly after 24:00:00
-      */
-    public static void main(String[] args){
-        StopWatchProgram stopWatch = new StopWatchProgram();
+
+    @Test
+    public void testTime() {
         stopWatch.setCountHour(23);
         stopWatch.setCountMin(59);
-        stopWatch.setCountSec(57);
+        stopWatch.setCountSec(59);
+
+        try{
+            Thread.sleep(1000);
+
+        } catch(InterruptedException ex){
+            assertEquals(24, stopWatch.getCountHour());
+            assertEquals(00, stopWatch.getCountMin());
+            assertEquals(00, stopWatch.getCountSec());
+
+        }
     }
 }

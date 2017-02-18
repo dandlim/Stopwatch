@@ -122,6 +122,31 @@ public class StopWatch extends GraphicsGroup {
     }
 
     /**
+     * Gets the variable CountSec
+     * @return
+     */
+    public int getCountSec() {
+        return countSec;
+    }
+
+    /**
+     * Gets the variable CountMin
+     * @return
+     */
+    public int getCountMin() {
+        return countMin;
+    }
+
+    /**
+     * Gets the variable CountMin
+
+     * @return
+     */
+    public int getCountHour() {
+        return countHour;
+    }
+
+    /**
      * String object representation of the Graphics object's value
      *
      * @return Returns what the last displayed time was
