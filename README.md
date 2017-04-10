@@ -1,4 +1,4 @@
-# Homework 2: Stopwatch
+Stopwatch
 
 The comp124graphics package contains a class called GraphicsGroup that is a GraphicsObject and can therefore be placed on a canvas using the add method. The powerful and useful aspect of a GraphicsGroup is that any object in the GraphicsObject hierarchy can be placed inside a GraphicsGroup object using the add method also. This enables several graphical objects that could be placed together or all moved in the same way to be kept together in one object and all moved at once.
 
